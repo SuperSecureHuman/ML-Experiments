@@ -2,6 +2,7 @@ import torch
 from dataset import image_dataset
 from torch.utils.data import DataLoader
 import torchvision
+from tqdm import tqdm
 
 def save_checkpoint(state, filename="checkpoint.pth"):
     print("=> Saving checkpoint")
@@ -42,7 +43,8 @@ def check_accuracy(loader, model, device="cuda"):
     model.eval()
 
     with torch.no_grad():
-        for x, y in loader:
+        loop = tqdm(loader)
+        for batch_idx, (x, y) in enumerate(loop):
             x = x.to(device)
             y = y.to(device).unsqueeze(1)
             preds = torch.sigmoid(model(x))

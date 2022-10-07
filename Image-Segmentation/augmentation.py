@@ -1,5 +1,4 @@
 import os
-import time
 import albumentations as A
 import cv2
 from PIL import Image
@@ -26,12 +25,6 @@ def augmentation(image, mask):
 
     mask = Image.open(mask).convert('L')
     mask = np.array(mask)
-
-
-    #aug = A.RandomRotate90(p=1.0)
-    #augmented = aug(image=image, mask=mask)
-    #i1 = augmented['image']
-    #m1 = augmented['mask']
 
     aug = A.HorizontalFlip(p=1.0)
     augmented = aug(image=image, mask=mask)
@@ -61,19 +54,19 @@ def save_list_images(input_list, output_path, prefix):
         cv2.imwrite(file_pth, input_list[i])
 
 
-if not os.path.exists('./augmented_images'):
-    os.makedirs('./augmented_images')
-if not os.path.exists('./augmented_masks'):
-    os.makedirs('./augmented_masks')
+if not os.path.exists('./dataset/augmented_train_images'):
+    os.makedirs('./dataset/augmented_train_images')
+if not os.path.exists('./dataset/augmented_train_masks'):
+    os.makedirs('./dataset/augmented_train_masks')
 
 
-image_list, mask_list = create_list('./images', './masks')
+image_list, mask_list = create_list('./dataset/train', './dataset/train_masks')
 
 image_len = len(image_list)
 
 for i in tqdm(range(image_len), desc='Augmenting images', unit='images', leave=False, position=0, ncols=100, bar_format='{l_bar}{bar}| {n_fmt}/{total_fmt} [{elapsed}<{remaining}]'):
     prefix = image_list[i].split('/')[-1].split('.')[0]
     augmented_image_list, augmented_mask_list = augmentation(image_list[i], mask_list[i])
-    save_list_images(augmented_image_list, './augmented_images', prefix)
-    save_list_images(augmented_mask_list, './augmented_masks', prefix)
+    save_list_images(augmented_image_list, './dataset/augmented_train_images', prefix)
+    save_list_images(augmented_mask_list, './dataset/augmented_train_masks', prefix)
 

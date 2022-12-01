@@ -4,3 +4,8 @@ Image-Segmentation/dataset/
 
 Image-Segmentation/Pytorch/__pycache__/
 Image-Segmentation/Pytorch/checkpoint.pth
+
+__pycache__/
+
+.fleet/
+.vscode/

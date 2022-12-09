@@ -52,5 +52,5 @@ for epoch in range(1,3):
             optimizer.zero_grad()
             call.on_batch_begin()
             tepoch.set_postfix(loss=loss.item())
-    call.on_epoch_end(epoch, {'loss': loss.item()})
+    call.on_epoch_end(epoch, {'loss': loss.item()}) #type: ignore
 call.on_train_end()
